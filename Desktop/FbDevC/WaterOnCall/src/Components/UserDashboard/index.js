@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import DonutChart from "react-svg-donut-chart"
 import GaugeChart from "react-gauge-chart"
+import fire from '../../Config/Fire'
 import * as $ from 'jquery'
 import './styles.css'
 
@@ -13,18 +14,8 @@ export default class UserDashboard extends Component {
       waterData: 0,
       waterFlow: 0
     }
-    // this.loginWithSpotify = this.loginWithSpotify.bind(this)
+    this.logout = this.logout.bind(this)
   }
-
-  // componentDidMount() {
-  //   let _token = hash.access_token;
-  //   if (_token) {
-  //     this.setState({
-  //       token: _token
-  //     })
-  //     this.loginWithSpotify(_token)
-  //   }
-  // }
 
 componentDidMount(){
     $.ajax({
@@ -34,37 +25,38 @@ componentDidMount(){
         xhr.setRequestHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njc4NzU5NDQsImlhdCI6MTU2Nzg2ODc0NCwidXNyIjoiaHVzYW1naCJ9.xDdHx--u0mSIBb1NeZiHEwfJNL0_TaH0vloOwrfYSng");
       },
       success: (data) => {
-        console.log("success")
-        console.log(data)
+        // console.log("success")
+        // console.log(data)
         this.setState({ waterData: data.out })
       }
-     });
+    });
 
-     $.ajax({
+    $.ajax({
       url: "https://api.thinger.io/v2/users/husamgh/devices/ard1/Flow meter",
       type: "GET",
       beforeSend: (xhr) => {
         xhr.setRequestHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njc4NzU5NDQsImlhdCI6MTU2Nzg2ODc0NCwidXNyIjoiaHVzYW1naCJ9.xDdHx--u0mSIBb1NeZiHEwfJNL0_TaH0vloOwrfYSng");
       },
       success: (data) => {
-        console.log("success")
-        console.log(data)
+        // console.log("success")
+        // console.log(data)
         this.setState({ waterFlow: data})
       },
       failure: (data) => {
-        console.log(data)
+        // console.log(data)
       }
-     });
+    });
 }
 
 handleSubmit = (event) => {
-    // if (value) {
-    //   setList(list.concat(value));
-    // }
-    // setValue('');
     event.preventDefault();
     this.props.history.push('/UserDashboard')
   };
+
+logout(){
+    fire.auth().signOut()
+    this.props.history.push('/SignIn')
+  }
 
 render(){
   const dataPie = [
@@ -75,10 +67,23 @@ render(){
 
   return (
     <div className='userDashboard'>
-        <p className='WaterChartHolder'>Level of the Water in the Tank.</p>
+        <p className='title'>Level of the Water in the Tank.</p>
         <DonutChart className="WaterChart" data={dataPie} />
-        <p className='WaterChartHolder'>Incoming Water Speed</p>
+        <p className='title'>Incoming Water Speed</p>
         <GaugeChart id="gauge-chart" colors={["#FF5F6D", "#FFC371"]} percent={0.00} />
+        <p className='title'>Online Vendors</p>
+        <div class="flex-container">
+          <div>Vendor 1</div>
+          <div><a href="tel:03 123456">03 123456</a></div>
+          <div>beirut</div>
+          <div>Vendor 2</div>
+          <div><a href="tel:70 123456">70 123456</a></div>
+          <div>North</div>
+          <div>Vendor 3</div>
+          <div><a href="tel:71 123456">71 123456</a></div>
+          <div>Mount Lebanon</div>
+        </div>
+        <button className='logout' onClick={this.logout}>Logout</button>
     </div>
   );
 }

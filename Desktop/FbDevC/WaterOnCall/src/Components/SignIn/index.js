@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, withRouter, Route, NavLink } from 'react-router-dom'
 import { Redirect, Link } from 'react-router-dom'
 import fire from '../../Config/Fire'
+import UserDashboard from '../UserDashboard'
+import VendorDashboard from '../VendorDashboard'
 import './styles.css'
 
 export default class SignIn extends Component {
@@ -21,9 +23,10 @@ export default class SignIn extends Component {
 
 login(event){
   event.preventDefault();
-  console.log("email:", this.state.email)
-  console.log("password:", this.state.password)
+    // console.log("email:", this.state.email)
+    // console.log("password:", this.state.password)
   fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => { 
+     this.props.history.push('/UserDashboard')
   }).catch((error) => {
     console.log(error)
   })
@@ -31,9 +34,8 @@ login(event){
 
 handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
-    console.log("event target name", event.target.name)
-    console.log("event target value", event.target.value)
-    // this.props.history.push('/UserDashboard')
+    // console.log("event target name", event.target.name)
+    // console.log("event target value", event.target.value)
   }
 
  routeChange = (event) => {

@@ -28,12 +28,15 @@ handleSubmit = (event) => {
 
 signup(event){
   event.preventDefault();
-  console.log("email:", this.state.email)
-  console.log("password:", this.state.password)
-  console.log("fullname:", this.state.fullname)
-  console.log("phone:", this.state.phone)
-  console.log("location:", this.state.location)
+  // console.log("email:", this.state.email)
+  // console.log("password:", this.state.password)
+  // console.log("fullname:", this.state.fullname)
+  // console.log("phone:", this.state.phone)
+  // console.log("location:", this.state.location)
   fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u) => { 
+     // var firebaseRef = fire.database().ref();
+     // firebaseRef.child("text").set("some value");
+     // firebaseRef.push().set("some value");
      this.props.history.push('/SignIn')
   }).catch((error) => {
     console.log(error)
@@ -82,8 +85,8 @@ openVendorSignUp(){
 
 handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
-    console.log("event target name", event.target.name)
-    console.log("event target value", event.target.value)
+    // console.log("event target name", event.target.name)
+    // console.log("event target value", event.target.value)
     // this.props.history.push('/UserDashboard')
   }
 
